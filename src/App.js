@@ -4,7 +4,7 @@ import React from 'react';
 import Cards from "./component/card/Cards.jsx";
 //import CountryPicer from "./component/countryPicer/CountryPicer.jsx"
 //import Chat from "./component/chat/Chat.jsx"
-import  image from "C:/Users/user/Desktop/DSC_2348.JPG"
+import  image from "./covid.png"
 import styles from './App.module.css';
 
 import { fetchDailyData,fetchCountries ,fetchData} from './api';
@@ -23,7 +23,7 @@ class App extends React.Component {
     render(){
         return(
         <div className={styles.container}>
-            <image >   </image>
+            <img src={image} alt='require function fllails'/>
             <Cards data={this.state.data}/>
         </div>
         )
