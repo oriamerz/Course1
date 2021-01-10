@@ -13,7 +13,7 @@ const Charts = () => {
 
 
     return (
-        <h1>Cards</h1>
+        <h1>Chard</h1>
     )
 }
 
