@@ -10,7 +10,7 @@ export const fetchDailyData = async () => {
         const modifiedData = data.map((dailyData) => ({
             confirmed: dailyData.confirmed.total,
             deaths: dailyData.deaths.total,
-            data: dailyData.reportDate,
+            date: dailyData.reportDate,
         }));
         //console.log(modifiedData.map((daily) => (daily.confirmed)))
         return modifiedData;
@@ -22,10 +22,16 @@ export const fetchDailyData = async () => {
 
 }
 
-export const fetchData = async () => {
+export const fetchData = async (country) => {
     try {
-        const {data} = await axios.get(url);
-        console.log(data)
+        let changeableUrl = url;
+        if (country)
+        {
+            changeableUrl = `${url}/countries/${country}`;
+        }
+
+
+        const {data} = await axios.get(changeableUrl);
         const modifiedData = {
             confirmed: data.confirmed,
             recovered: data.recovered,
@@ -45,8 +51,6 @@ export const fetchData = async () => {
 export const fetchCountries = async () => {
     try{
       const  {data: {countries}} = await axios.get(`${url}/countries`);
-
-      console.log(countries.map((country) => (country.name)))
       return countries.map((country) => (country.name));
     } catch (error) {
         console.log(error);
