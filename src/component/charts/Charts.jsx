@@ -19,10 +19,14 @@ const Chart = ({data, country}) => {
         fetchAPI();
     }, []);
 
-
+    let errorStatment=dailyData.response===undefined? "Loading chart" :
+    "Sorry, can't get data for the chart because has error at the database of API covid (status of the response: "+dailyData.response.status +")."  
+//console.log(dailyData.length==undefined);
     const lineChart = (
+        
+        
 
-        dailyData.length ? (
+           dailyData.length !== undefined && dailyData.length ? (
             <Line data={{
                 labels: dailyData.map(({ date }) => date),
                 datasets: [{
@@ -37,12 +41,12 @@ const Chart = ({data, country}) => {
                     backgroundColor: 'rgba(255, 0, 0, 0.5)',
                     fill: true,
                 }]
-            }} />) : null
+            }} />) :errorStatment
 
     );
     const barChart = (
 
-        dailyData.length ? (
+        dailyData.length !== undefined && dailyData.length ? (
             <Bar data={{
                 labels: ['Recovered', 'Confirmed', 'Deaths'],
                 datasets: [
@@ -62,7 +66,7 @@ const Chart = ({data, country}) => {
                     borderWidth: 1,
                   },
                 ],
-              }} />) : null
+              }} />) : errorStatment
 
     );
 

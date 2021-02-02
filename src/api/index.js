@@ -5,7 +5,11 @@ const url = 'https://covid19.mathdro.id/api';
 export const fetchDailyData = async () => {
     try {
 
-        const {data} = await axios.get(`${url}/daily`);
+        const {data} = await axios.get(`${url}/daily`).catch(function (error) {
+    if (error.response) {
+        throw(error)
+    }
+  });;
         
         const modifiedData = data.map((dailyData) => ({
             confirmed: dailyData.confirmed.total,
@@ -17,7 +21,10 @@ export const fetchDailyData = async () => {
         
 
     } catch (error) {
+        console.log(error);
 
+        //console.log(modifiedData.map((daily) => (daily.confirmed)))
+        return error;
     }
 
 }
