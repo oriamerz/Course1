@@ -7,7 +7,7 @@ import { Line, Bar } from 'react-chartjs-2';
 
 
 
-const Chart = ({data, country}) => {
+const Chart = ({ data, country }) => {
     const [dailyData, setDailyData] = useState([]);
 
     useEffect(() => {
@@ -19,10 +19,14 @@ const Chart = ({data, country}) => {
         fetchAPI();
     }, []);
 
-
+    let errorStatment = dailyData.response === undefined ? "Loading chart" :
+        "Sorry, can't get data for the chart because has error at the database of API covid (status of the response: " + dailyData.response.status + ")."
+    //console.log(dailyData.length==undefined);
     const lineChart = (
 
-        dailyData.length ? (
+
+
+        dailyData.length !== undefined && dailyData.length ? (
             <Line data={{
                 labels: dailyData.map(({ date }) => date),
                 datasets: [{
@@ -37,39 +41,39 @@ const Chart = ({data, country}) => {
                     backgroundColor: 'rgba(254, 0, 0, 0.5)',
                     fill: true,
                 }]
-            }} />) : null
+            }} />) : errorStatment
 
     );
     const barChart = (
 
-        dailyData.length ? (
+        dailyData.length !== undefined && dailyData.length ? (
             <Bar data={{
                 labels: ['Recovered', 'Confirmed', 'Deaths'],
                 datasets: [
-                  {
-                    label: '# of Votes',
-                    data: [data.recovered.value, data.confirmed.value, data.deaths.value ],
-                    backgroundColor: [
-                      'rgba(0, 255, 0, 0.5);',
-                      'rgba(0, 0, 255, 0.5)',
-                      'rgba(255, 0, 0, 0.5)',
-                    ],
-                    borderColor: [
-                        'rgba(0, 255, 0, 0.5);',
-                        'rgba(0, 0, 255, 0.5)',
-                        'rgba(255, 0, 0, 0.5)',
-                    ],
-                    borderWidth: 1,
-                  },
+                    {
+                        label: '# of Votes',
+                        data: [data.recovered.value, data.confirmed.value, data.deaths.value],
+                        backgroundColor: [
+                            'rgba(0, 255, 0, 0.5);',
+                            'rgba(0, 0, 255, 0.5)',
+                            'rgba(255, 0, 0, 0.5)',
+                        ],
+                        borderColor: [
+                            'rgba(0, 255, 0, 0.5);',
+                            'rgba(0, 0, 255, 0.5)',
+                            'rgba(255, 0, 0, 0.5)',
+                        ],
+                        borderWidth: 1,
+                    },
                 ],
-              }} />) : null
+            }} />) : errorStatment
 
     );
 
     return (
         <div className={styles.container}>
-            {country.length? barChart : lineChart}
-           
+            {country.length ? barChart : lineChart}
+
         </div>
     )
 }
